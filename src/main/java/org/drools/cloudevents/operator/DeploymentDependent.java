@@ -1,8 +1,5 @@
 package org.drools.cloudevents.operator;
 
-import static org.drools.cloudevents.operator.ExposedAppReconciler.LABELS_CONTEXT_KEY;
-import static org.drools.cloudevents.operator.ExposedAppReconciler.createMetadata;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +10,9 @@ import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.Matcher;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+
+import static org.drools.cloudevents.operator.ExposedAppReconciler.LABELS_CONTEXT_KEY;
+import static org.drools.cloudevents.operator.ExposedAppReconciler.createMetadata;
 
 public class DeploymentDependent extends CRUDKubernetesDependentResource<Deployment, ExposedApp>
         implements Matcher<Deployment, ExposedApp> {
@@ -38,7 +38,11 @@ public class DeploymentDependent extends CRUDKubernetesDependentResource<Deploym
                 .withNewMetadata().withLabels(labels).endMetadata()
                 .withNewSpec()
                 .addNewContainer()
-                .withName(name).withImage(imageRef);
+                .withName(name).withImage(imageRef)
+                .addNewVolumeMount()
+                .withName("config-rules-volume")
+                .withMountPath("/opt/rules")
+                .endVolumeMount();
 
         // add env variables
         if (env != null) {
@@ -53,6 +57,12 @@ public class DeploymentDependent extends CRUDKubernetesDependentResource<Deploym
                 .withName("http").withProtocol("TCP").withContainerPort(8080)
                 .endPort()
                 .endContainer()
+                .addNewVolume()
+                .withName("config-rules-volume")
+                .withNewPersistentVolumeClaim()
+                .withClaimName("config-rules-pvc")
+                .endPersistentVolumeClaim()
+                .endVolume()
                 .endSpec()
                 .endTemplate()
                 .endSpec()
