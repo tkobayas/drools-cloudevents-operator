@@ -1,0 +1,56 @@
+---
+defaultChannel: stable-v1
+name: drools-cloudevents-operator
+schema: olm.package
+---
+entries:
+- name: drools-cloudevents-operator.v1.0.0
+name: stable-v1
+package: drools-cloudevents-operator
+schema: olm.channel
+---
+image: docker.io/tkobayas/drools-cloudevents-operator-bundle:1.0.0
+name: drools-cloudevents-operator.v1.0.0
+package: drools-cloudevents-operator
+properties:
+- type: olm.gvk
+  value:
+    group: halkyon.io
+    kind: ExposedApp
+    version: v1alpha1
+- type: olm.package
+  value:
+    packageName: drools-cloudevents-operator
+    version: 1.0.0
+- type: olm.csv.metadata
+  value:
+    apiServiceDefinitions: {}
+    crdDescriptions:
+      owned:
+      - kind: ExposedApp
+        name: exposedapps.halkyon.io
+        version: v1alpha1
+    description: A sample operator that exposes Drools CloudEvents with static rules
+    displayName: Drools CloudEvents Operator
+    installModes:
+    - supported: true
+      type: AllNamespaces
+    nativeAPIs:
+    - group: ""
+      kind: Service
+      version: v1
+    - group: apps
+      kind: Deployment
+      version: v1
+    - group: networking.k8s.io
+      kind: Ingress
+      version: v1
+    provider:
+      name: kiegroup
+      url: https://github.com/kiegroup
+relatedImages:
+- image: docker.io/tkobayas/drools-cloudevents-operator-bundle:1.0.0
+  name: ""
+- image: docker.io/tkobayas/drools-cloudevents-operator:1.0.0
+  name: ""
+schema: olm.bundle

@@ -61,6 +61,23 @@ Note that this is a very naive configuration and implementation, targeting `defa
    {"color":"red"}
    ```
    
+## Steps (leveraging OLM and Operator bundle)
+
+**(As of Apr 10) OLM fails on `minikube addons enable olm` with `Failed to pull image "quay.io/operatorhubio/catalog...` So the below procedure doesn't work. Just keeping it for the future reference**
+
+Note: This approach required OLM tasks https://docs.quarkiverse.io/quarkus-operator-sdk/dev/deploy-with-olm.html I followed the steps and created a catalog image and required yaml files. If we create a new operator, we may need to recreate them.
+
+1. `minikube start`
+2. `minikube addons enable ingress`
+3. `minikube addons enable olm`
+4. `kubectl create namespace operator`
+5. `kubectl config set-context --current --namespace=operator`
+6. `kubectl apply -f my-catalog.yaml`
+7. `kubectl apply -f my-group.yaml`
+8. `kubectl apply -f drools-cloudevents-operator-subscription.yaml`
+
+
+
 
 In this example, 'tkobayas/drools-cloudevents:latest' is a container image with a static rule. Then next step is to
 

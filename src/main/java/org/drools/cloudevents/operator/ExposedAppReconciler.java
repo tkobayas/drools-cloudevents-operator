@@ -20,7 +20,12 @@ import io.quarkiverse.operatorsdk.annotations.CSVMetadata;
         @Dependent(name = "service", type = ServiceDependent.class),
         @Dependent(type = IngressDependent.class, readyPostcondition = IngressDependent.class)
 })
-@CSVMetadata(displayName = "ExposedApp operator", description = "A sample operator that shows how to use JOSDK's main features with the Quarkus extension")
+@CSVMetadata(csvName = "drools-cloudevents-operator.v1.0.0",
+        bundleName = "drools-cloudevents-operator",
+        version = "1.0.0",
+        provider = @CSVMetadata.Provider(name = "kiegroup", url = "https://github.com/kiegroup"),
+        displayName = "Drools CloudEvents Operator",
+        description = "A sample operator that exposes Drools CloudEvents with static rules")
 public class ExposedAppReconciler implements Reconciler<ExposedApp>,
         ContextInitializer<ExposedApp> {
 
