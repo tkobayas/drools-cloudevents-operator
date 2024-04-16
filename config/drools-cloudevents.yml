@@ -3,4 +3,5 @@ kind: ExposedApp
 metadata:
   name: drools-cloudevents
 spec:
-  imageRef: 'tkobayas/drools-cloudevents:latest'
+#  imageRef: 'registry.kube-system.svc.cluster.local:80/tkobayas/drools-cloudevents:latest'
+  imageRef: '10.111.210.28:80/tkobayas/drools-cloudevents:latest'

@@ -1,19 +1,22 @@
 package org.drools.cloudevents.operator;
 
-import static io.javaoperatorsdk.operator.api.reconciler.Constants.WATCH_CURRENT_NAMESPACE;
-
 import java.time.Duration;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
-import io.javaoperatorsdk.operator.api.reconciler.*;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.ContextInitializer;
+import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
+import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.quarkiverse.operatorsdk.annotations.CSVMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static io.javaoperatorsdk.operator.api.reconciler.Constants.WATCH_CURRENT_NAMESPACE;
 
 @ControllerConfiguration(namespaces = WATCH_CURRENT_NAMESPACE, name = "exposedapp", dependents = {
         @Dependent(type = DeploymentDependent.class),
@@ -28,6 +31,8 @@ public class ExposedAppReconciler implements Reconciler<ExposedApp>,
     static final String APP_LABEL = "app.kubernetes.io/name";
     static final String LABELS_CONTEXT_KEY = "labels";
 
+
+
     public ExposedAppReconciler() {
     }
 
@@ -40,6 +45,8 @@ public class ExposedAppReconciler implements Reconciler<ExposedApp>,
     @Override
     public UpdateControl<ExposedApp> reconcile(ExposedApp exposedApp, Context<ExposedApp> context) {
         final var name = exposedApp.getMetadata().getName();
+        log.info("Reconciling ExposedApp {}", name);
+
         // retrieve the workflow reconciliation result and re-schedule if we have dependents that are not yet ready
         return context.managedDependentResourceContext().getWorkflowReconcileResult()
                 .map(wrs -> {
@@ -54,7 +61,7 @@ public class ExposedAppReconciler implements Reconciler<ExposedApp>,
                         final var duration = Duration.ofSeconds(1);
                         log.info("App {} is not ready yet, rescheduling reconciliation after {}s", name, duration.toSeconds());
                         log.info("Dependent resources not ready: {}", wrs.getNotReadyDependents());
-                        return UpdateControl.<ExposedApp> noUpdate().rescheduleAfter(duration);
+                        return UpdateControl.<ExposedApp>noUpdate().rescheduleAfter(duration);
                     }
                 }).orElseThrow();
     }

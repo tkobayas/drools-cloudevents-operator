@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.mvnpm.at.vanillawc</groupId>
+  <artifactId>wc-codemirror</artifactId>
+  <version>2.1.0</version>
+  <name>vanillawc wc-codemirror</name>
+  <description>CodeMirror as a vanilla web component</description>
+  <url>https://github.com/vanillawc/wc-codemirror#readme</url>
+  <organization>
+    <name>Evan Plaice</name>
+    <url>https://github.com/vanillawc/wc-codemirror#readme</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>MIT</name>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>evanplaice</name>
+      <email>evanplaice@gmail.com</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>https://github.com/vanillawc/wc-codemirror.git</connection>
+    <developerConnection>https://github.com/vanillawc/wc-codemirror.git</developerConnection>
+    <url>https://github.com/vanillawc/wc-codemirror</url>
+  </scm>
+  <issueManagement>
+    <url>https://github.com/vanillawc/wc-codemirror/issues</url>
+  </issueManagement>
+</project>

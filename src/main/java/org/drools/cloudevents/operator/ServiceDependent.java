@@ -9,8 +9,12 @@ import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServiceDependent extends CRUDKubernetesDependentResource<Service, ExposedApp> {
+
+    static final Logger log = LoggerFactory.getLogger(ServiceDependent.class);
 
     public ServiceDependent() {
         super(Service.class);
@@ -19,6 +23,9 @@ public class ServiceDependent extends CRUDKubernetesDependentResource<Service, E
     @Override
     @SuppressWarnings("unchecked")
     public Service desired(ExposedApp exposedApp, Context context) {
+
+        log.info("ServiceDependent.desired {}", exposedApp.getMetadata().getName());
+
         final var labels = (Map<String, String>) context.managedDependentResourceContext()
                 .getMandatory(LABELS_CONTEXT_KEY, Map.class);
 

@@ -1,7 +1,44 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: config-rules-pv
+  namespace: default
+  labels:
+    name: "config-rules-pv"
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: "/mnt/data"
+    type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: config-rules-pvc
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: "config-rules-pv"
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: drools-cloudevents-operator-service-account
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -26,6 +63,7 @@ rules:
   - apiGroups: ["halkyon.io"]
     resources: ["exposedapps/status"]
     verbs: ["update", "patch"]
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -39,6 +77,7 @@ subjects:
   - kind: ServiceAccount
     name: drools-cloudevents-operator-service-account
     namespace: default
+
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
@@ -83,6 +122,7 @@ spec:
       storage: true
       subresources:
         status: {}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -102,4 +142,19 @@ spec:
       containers:
         - name: drools-cloudevents-operator
           image: tkobayas/drools-cloudevents-operator:latest
-
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+            - name: config-rules-volume
+              mountPath: "/opt/rules"
+          env:
+            - name: DOCKER_HOST
+              value: unix:///var/run/docker.sock
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
+        - name: config-rules-volume
+          persistentVolumeClaim:
+            claimName: config-rules-pvc

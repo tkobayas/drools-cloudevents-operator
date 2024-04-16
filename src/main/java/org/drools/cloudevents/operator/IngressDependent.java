@@ -11,9 +11,13 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IngressDependent extends CRUDKubernetesDependentResource<Ingress, ExposedApp> implements
         Condition<Ingress, ExposedApp> {
+
+    static final Logger log = LoggerFactory.getLogger(IngressDependent.class);
 
     public IngressDependent() {
         super(Ingress.class);
@@ -22,6 +26,9 @@ public class IngressDependent extends CRUDKubernetesDependentResource<Ingress, E
     @Override
     @SuppressWarnings("unchecked")
     public Ingress desired(ExposedApp exposedApp, Context context) {
+
+        log.info("IngressDependent.desired {}", exposedApp.getMetadata().getName());
+
         final var labels = (Map<String, String>) context.managedDependentResourceContext()
                 .getMandatory(LABELS_CONTEXT_KEY, Map.class);
         final var metadata = createMetadata(exposedApp, labels);

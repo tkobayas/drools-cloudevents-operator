@@ -7,6 +7,9 @@ public class ExposedAppSpec {
 
     // Add Spec information here
     private String imageRef;
+
+    private String rulesDir;
+
     private Map<String, String> env;
 
     private String endpoint;
@@ -29,5 +32,13 @@ public class ExposedAppSpec {
 
     public Map<String, String> getEnv() {
         return env == null ? Collections.emptyMap() : env;
+    }
+
+    public String getRulesDir() {
+        return rulesDir;
+    }
+
+    public void setRulesDir(String rulesDir) {
+        this.rulesDir = rulesDir;
     }
 }
