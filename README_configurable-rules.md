@@ -33,14 +33,13 @@ This configurable-rules version of Drools CloudEvents Operator. You can change t
 
 1. `minikube start --mount --mount-string="$(pwd)/config-rules:/mnt/data"`
 2. `minikube addons enable ingress`
-3. `minikube addons enable olm`
-4. `kubectl apply -f drools-cloudevents-configurable-rules-operator-deployment.yaml`
-5. Wait until drools-cloudevents-configurable-rules-operator is running.
-6. `kubectl apply -f ./config/config-rules-pv-pvc.yml`
-7. `kubectl apply -f ./config/drools-cloudevents-configurable-rules.yml`
-8. `kubectl logs <drools-cloudevents-configurable-rules-operator pod name> -f`
-9. Wait until the log prints `App drools-cloudevents-configurable-rules is exposed and ready to be used at https://192.168.x.x` It may take around 30 seconds.
-10.
+3. `kubectl apply -f drools-cloudevents-configurable-rules-operator-deployment.yaml`
+4. Wait until drools-cloudevents-configurable-rules-operator is Running (`kubectl get pods -w`).
+5. `kubectl apply -f ./config/config-rules-pv-pvc.yml`
+6. `kubectl apply -f ./config/drools-cloudevents-configurable-rules.yml`
+7. `kubectl logs <drools-cloudevents-configurable-rules-operator pod name> -f`
+8. Wait until the log prints `App drools-cloudevents-configurable-rules is exposed and ready to be used at https://192.168.x.x` It may take around 30 seconds.
+9.
    ```
    curl -k https://192.168.x.x/drools/evaluate \
    -H "Ce-Specversion: 1.0" \
@@ -52,8 +51,8 @@ This configurable-rules version of Drools CloudEvents Operator. You can change t
    -d '{"id":"color","val":"red"}'
    ```
    Note that you need to replace the IP address with the one in the previous step. Also use `-k` option to ignore the self-signed certificate.
-11. You should get a response:
+10. You should get a response:
    ```
    {"color":"red"}
    ```
-
+11. You can scale the pod by `kubectl scale deployment drools-cloudevents-configurable-rules --replicas=3`
