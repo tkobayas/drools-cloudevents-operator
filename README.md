@@ -38,13 +38,12 @@ Note that this is a very naive configuration and implementation, targeting `defa
 
 1. `minikube start`
 2. `minikube addons enable ingress`
-3. `minikube addons enable olm`
-4. `kubectl apply -f drools-cloudevents-operator-deployment.yaml`
-5. Wait until drools-cloudevents-operator is running.
-6. `kubectl apply -f ./config/drools-cloudevents.yml`
-7. `kubectl logs <drools-cloudevents-operator pod name> -f`
-8. Wait until the log prints `App drools-cloudevents is exposed and ready to be used at https://192.168.x.x` It may take around 30 seconds.
-9.
+3. `kubectl apply -f drools-cloudevents-operator-deployment.yaml`
+4. Wait until drools-cloudevents-operator is Running (`kubectl get pod -w`).
+5. `kubectl apply -f ./config/drools-cloudevents.yml`
+6. `kubectl logs <drools-cloudevents-operator pod name> -f`
+7. Wait until the log prints `App drools-cloudevents is exposed and ready to be used at https://192.168.x.x` It may take around 30 seconds.
+8.
    ```
    curl -k https://192.168.x.x/drools/evaluate \
    -H "Ce-Specversion: 1.0" \
@@ -56,11 +55,11 @@ Note that this is a very naive configuration and implementation, targeting `defa
    -d '{"id":"color","val":"red"}'
    ```
    Note that you need to replace the IP address with the one in the previous step. Also use `-k` option to ignore the self-signed certificate.
-10. You should get a response:
+9. You should get a response:
    ```
    {"color":"red"}
    ```
-   
+10. You can scale the pods by `kubectl scale deployment drools-cloudevents --replicas=3`
 
 In this example, 'tkobayas/drools-cloudevents:latest' is a container image with a static rule. Then next step is to
 
