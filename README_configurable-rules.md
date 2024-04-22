@@ -24,9 +24,9 @@ This configurable-rules version of Drools CloudEvents Operator. You can change t
    -d '{"id":"color","val":"red"}'
    ```
    Note that you need to replace the IP address with the one in the previous step. Also use `-k` option to ignore the self-signed certificate.
-10. You should get a response:
+10. You should get a response which comes from the configured rules:
    ```
-   {"color":"red"}
+   {"configured rule by operator result":"red!!"}
    ```
 
 ### Steps (with container image)
@@ -51,8 +51,8 @@ This configurable-rules version of Drools CloudEvents Operator. You can change t
    -d '{"id":"color","val":"red"}'
    ```
    Note that you need to replace the IP address with the one in the previous step. Also use `-k` option to ignore the self-signed certificate.
-10. You should get a response:
+10. You should get a response which comes from the configured rules:
    ```
-   {"color":"red"}
+   {"configured rule by operator result":"red!!"}
    ```
 11. You can scale the pod by `kubectl scale deployment drools-cloudevents-configurable-rules --replicas=3`
