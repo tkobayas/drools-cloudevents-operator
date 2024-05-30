@@ -3,4 +3,4 @@ kind: ExposedApp
 metadata:
   name: drools-cloudevents-configurable-rules
 spec:
-  imageRef: 'tkobayas/drools-cloudevents-configurable-rules:latest'
+  imageRef: 'docker.io/tkobayas/drools-cloudevents-configurable-rules:latest'

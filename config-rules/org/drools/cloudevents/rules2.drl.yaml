@@ -8,4 +8,4 @@ rules:
     having:
     - "id == \"color\""
   then: |
-    results.put("configured rule by operator result", $m.val + "!!");
+    results.put("configured rule by operator result2", $m.val + "!!");

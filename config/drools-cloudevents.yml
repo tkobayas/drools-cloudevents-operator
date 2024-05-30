@@ -1,6 +1,0 @@
-apiVersion: "halkyon.io/v1alpha1"
-kind: ExposedApp
-metadata:
-  name: drools-cloudevents
-spec:
-  imageRef: 'tkobayas/drools-cloudevents:latest'

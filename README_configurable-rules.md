@@ -56,3 +56,9 @@ This configurable-rules version of Drools CloudEvents Operator. You can change t
    {"configured rule by operator result":"red!!"}
    ```
 11. You can scale the pod by `kubectl scale deployment drools-cloudevents-configurable-rules --replicas=3`
+
+### Tips for minikube + podman
+1. Make user can run podman without sudo: `sudo visudo`
+2. `minikube start --driver=podman --container-runtime=cri-o --mount --mount-string="$(pwd)/config-rules:/mnt/data" ; minikube addons enable ingress`
+3. `eval $(minikube -p minikube podman-env)`
+... same as docker

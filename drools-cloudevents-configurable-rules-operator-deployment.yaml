@@ -101,5 +101,5 @@ spec:
       serviceAccountName: drools-cloudevents-configurable-rules-operator-service-account
       containers:
         - name: drools-cloudevents-configurable-rules-operator
-          image: tkobayas/drools-cloudevents-configurable-rules-operator:latest
+          image: docker.io/tkobayas/drools-cloudevents-configurable-rules-operator:latest
 
